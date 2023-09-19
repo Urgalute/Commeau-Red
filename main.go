@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	p1 := ProjetRed.Initplayer("YourName", "Elfe")
-	ProjetRed.MainMenu(&p1)
+	p1 := ProjetRed.Initplayer("YourName", "fdgdfg")
+	p1.MainMenu()
 }

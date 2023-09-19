@@ -1,7 +1,7 @@
 package main
 
 import (
-	ProjetRed "projetred/src"
+	ProjetRed "ProjetRed/src"
 )
 
 func main() {

@@ -10,6 +10,7 @@ func (p *Player) MainMenu() {
 	fmt.Println("Information personnage: 1")
 	fmt.Println("Inventaire: 2")
 	fmt.Println("Marchand: 3")
+	fmt.Println("Forgeron: 4")
 	fmt.Println("Retour: 0")
 	fmt.Scanln(&input)
 	switch input {
@@ -21,6 +22,10 @@ func (p *Player) MainMenu() {
 		fmt.Println("----------------------------")
 		fmt.Println("Bienvenue chez le marchand !")
 		p.Dealer()
+	case 4:
+		fmt.Println("Bienvenue chez le forgeron !", "\n", "Contre une légère commission, ma forge est à votre disposition.")
+		p.BlackSmith()
+
 	case 0:
 		fmt.Println("A plus !")
 	}

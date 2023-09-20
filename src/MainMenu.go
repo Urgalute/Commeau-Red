@@ -15,18 +15,23 @@ func (p *Player) MainMenu() {
 	fmt.Scanln(&input)
 	switch input {
 	case 1:
+		fmt.Println("----------------------------")
 		p.DisplayPlayerInfo()
 	case 2:
+		fmt.Println("----------------------------")
 		p.AccessInventory()
 	case 3:
 		fmt.Println("----------------------------")
 		fmt.Println("Bienvenue chez le marchand !")
+		fmt.Println("------")
 		p.Dealer()
 	case 4:
+		fmt.Println("----------------------------")
 		fmt.Println("Bienvenue chez le forgeron !", "\n", "Contre une légère commission, ma forge est à votre disposition.")
+		fmt.Println("------")
 		p.BlackSmith()
-
 	case 0:
+		fmt.Println("----------------------------")
 		fmt.Println("A plus !")
 	}
 }

@@ -20,13 +20,12 @@ func Initplayer(name string, class string) Player {
 	p1.level = 1
 	p1.maxlife = 200
 	p1.actuallife = 100
-	p1.money = 100
-	p1.inventory = map[string]int{"Potion": 1, "Epée": 1}
+	p1.money = 3
+	p1.inventory = map[string]int{"Potion de PV": 1, "Epée": 1}
 
 	return p1
 }
 func (p *Player) DisplayPlayerInfo() {
-	fmt.Println("----------------------------")
 	fmt.Println("Nom du personnage:", p.name)
 	fmt.Println("Classe: ", p.class)
 	fmt.Println("Niveau du personnage: ", p.level)

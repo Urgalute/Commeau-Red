@@ -52,6 +52,11 @@ func (p *Player) BlackSmith() {
 			}
 		case 0:
 			p.MainMenu()
+		default:
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			p.BlackSmith()
 		}
 	} else {
 		fmt.Println("Désolé mais je ne travaille pas gratuitement..", "\n", "(Il vous faut 5 Pièces d'or au minimum pour demander au forgeron de vous fabriquer un objet. Vous avez:", p.money, ")")

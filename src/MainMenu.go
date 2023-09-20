@@ -33,5 +33,10 @@ func (p *Player) MainMenu() {
 	case 0:
 		fmt.Println("----------------------------")
 		fmt.Println("A plus !")
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.MainMenu()
 	}
 }

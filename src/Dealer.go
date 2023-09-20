@@ -29,6 +29,11 @@ func (p *Player) Dealer() {
 		p.Dealer2()
 	case 0:
 		p.MainMenu()
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.Dealer()
 	}
 }
 func (p *Player) Dealer2() {
@@ -56,5 +61,10 @@ func (p *Player) Dealer2() {
 		p.Dealer2()
 	case 0:
 		p.Dealer()
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.Dealer2()
 	}
 }

@@ -38,5 +38,10 @@ func (p *Player) DisplayPlayerInfo() {
 	switch input {
 	case 0:
 		p.MainMenu()
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.DisplayPlayerInfo()
 	}
 }

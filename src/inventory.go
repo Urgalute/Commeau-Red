@@ -22,16 +22,25 @@ func (p *Player) AccessInventory() {
 			p.TakePot()
 		case 0:
 			p.MainMenu()
+		default:
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			p.AccessInventory()
+		}
+	} else {
+		fmt.Println("Retour: 0")
+		fmt.Scanln(&input)
+		switch input {
+		case 0:
+			p.MainMenu()
+		default:
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			fmt.Println("Cette commande ne fait pas parite des possibles, réessayez.")
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			p.MainMenu()
 		}
 	}
-	fmt.Println("Retour: 0")
-	fmt.Scanln(&input)
-	switch input {
-	case 2:
-	case 0:
-		p.MainMenu()
-	}
-
 }
 
 func (p *Player) TakePot() {

@@ -5,6 +5,6 @@ import (
 )
 
 func main() {
-	p1 := ProjetRed.Initplayer("YourName", "fdgdfg")
-	p1.MainMenu()
+	var p1 ProjetRed.Player
+	p1.WelcomeScreen()
 }

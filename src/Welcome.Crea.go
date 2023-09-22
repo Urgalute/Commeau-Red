@@ -35,7 +35,6 @@ func keeplettersonly(input1 string) string {
 
 func (p *Player) CharCrea() {
 	var input1 string
-	var input2 string
 	fmt.Println("Vous allez créer votre propre personnage, pour commencer, entrez un nom (Limité à 15 caractères composé uniquement de lettres)")
 	fmt.Scanln(&input1)
 	input1 = keeplettersonly(input1)
@@ -45,9 +44,10 @@ func (p *Player) CharCrea() {
 	input1 = strings.ToLower(input1)
 	input1 = strings.Title(input1)
 	fmt.Println(input1, "sera donc votre nom..")
+	var input2 string
 	fmt.Println("Maintenant, choississez une race parmis les ces trois choix")
 	fmt.Println("\n", "Humain: 1", "\n", "Elfe: 2", "\n", "Nain: 3")
-	fmt.Println("Les Humains ont 100 PV max", "\n", "Les Elfes ont 80 PV max", "\n", "Les Nains ont 120 PV max")
+	fmt.Println("Les Humains commences avec 100 PV max", "\n", "Les Elfes commences avec 80 PV max", "\n", "Les Nains commences avec 120 PV max")
 	fmt.Scanln(&input2)
 	switch input2 {
 	case "1":
@@ -56,6 +56,11 @@ func (p *Player) CharCrea() {
 		input2 = "Elfe"
 	case "3":
 		input2 = "Nain"
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.CharCrea()
 	}
 	Initplayer(input1, input2, "")
 }

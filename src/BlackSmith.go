@@ -4,6 +4,8 @@ import "fmt"
 
 func (p *Player) BlackSmith() {
 	if p.money >= 5 {
+		fmt.Println("Votre or:", p.money)
+		fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 		fmt.Println("Voilà ce que je peut vous proposer.")
 		{
 			if p.inventory["Plume de corbeau"] >= 1 && p.inventory["Cuir de sanglier"] >= 1 {

@@ -21,9 +21,10 @@ type Player struct {
 	spell      map[string]int
 	money      int
 	inventory  map[string]int
+	rangeinventory int
 }
 
-func Initplayer(name string, race string, class string) Player {
+func Initplayer(name string ,race string, class string) Player {
 
 	var p1 Player
 	p1.name = name
@@ -44,6 +45,10 @@ func Initplayer(name string, race string, class string) Player {
 	p1.spell = map[string]int{"Coup de poing": 1}
 	p1.money = 300
 	p1.inventory = map[string]int{"Potion de PV": 1}
+	p1.rangeinventory = 10
+	p1.equipment.head = ""
+	p1.equipment.torse = ""
+	p1.equipment.foot = ""
 	p1.DisplayPlayerInfo()
 	return p1
 }
@@ -54,6 +59,7 @@ func (p *Player) DisplayPlayerInfo() {
 	fmt.Println("Niveau du personnage: ", p.level)
 	fmt.Println("Maximum de PV: ", p.maxlife)
 	fmt.Println("PV actuel: ", p.actuallife)
+	fmt.Println("Equipement:", p.equipment)
 	fmt.Println("----------------------------")
 	fmt.Println("Retour: 0")
 	var input string

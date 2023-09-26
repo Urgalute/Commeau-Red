@@ -7,31 +7,35 @@ import (
 var input string
 
 func (p *Player) Dealer() {
+	//Marchand page 1 Utilitaires
 	fmt.Println("Page 1: Utilitaires")
 	fmt.Println("------")
-	fmt.Println("Votre or:", p.money)
+	fmt.Println("Votre or:", p.money["Pièces d'or"], "Pièces d'or")
 	fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
-	fmt.Println("Acheter une potion de PV, 3 Pièces d'or: 1")
+	fmt.Println("1: Acheter une potion de PV (+50 PV), 3 Pièces d'or")
 	if p.inventory["Potion de PV"] <= 0 {
 		fmt.Println("Si vous n'en avez plus, je vous offre la première, si je vous laisse partir sans potion et que vous périssez, cela pourrait nuire à la réputation de mon établissement")
 	}
-	fmt.Println("Potion de poison, 6 Pièces d'or: 2")
-	fmt.Println("Livre de sort: Boule de feu, 25 Pièces d'or : 3")
+	fmt.Println("2: Acheter une potion de poison, 10 Pièces d'or")
+	fmt.Println("3: Acheter une potion de mana, 5 Pièces d'or")
+	if p.spell[1] != "Boule de feu" && p.inventory["Livre de sort: Boule de feu"] <= 0 {
+		fmt.Println("4: Acheter le Livre de sort: Boule de feu, 25 Pièces d'or")
+	}
 	if p.rangeinventory == 10 {
-		fmt.Println("Capacité d'inventaire +10 (3 Achats restant): 30 Pièces d'or: 4")
+		fmt.Println("5: Capacité d'inventaire +10 (3 Achats restant): 30 Pièces d'or")
 	}
 	if p.rangeinventory == 20 {
-		fmt.Println("Capacité d'inventaire +10 (2 Achats restant): 30 Pièces d'or: 4")
+		fmt.Println("5: Capacité d'inventaire +10 (2 Achats restant): 30 Pièces d'or")
 	}
 	if p.rangeinventory == 30 {
-		fmt.Println("Capacité d'inventaire +10 (1 Achats restant): 30 Pièces d'or: 4")
+		fmt.Println("5: Capacité d'inventaire +10 (1 Achats restant): 30 Pièces d'or")
 	}
 	if p.rangeinventory == 40 {
 		fmt.Println("Capacité d'inventaire +10 (Epuisé, limite d'inventaire max atteinte)")
 	}
-	fmt.Println("Vendre: 5")
-	fmt.Println("Page 2: 6")
-	fmt.Println("Retour: 0")
+	fmt.Println("6: Vendre")
+	fmt.Println("7: Page 2")
+	fmt.Println("0: Retour")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
@@ -43,12 +47,23 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "2":
-		p.AddDealer("Potion de poison", 1, 6)
+		p.AddDealer("Potion de poison", 1, 10)
 		p.Dealer()
 	case "3":
-		p.AddDealer("Livre de sort: Boule de feu", 1, 25)
+		p.AddDealer("Potion de mana", 1, 5)
 		p.Dealer()
 	case "4":
+		if p.inventory["Livre de sort: Boule de feu"] > 0 {
+			fmt.Println("Vous avez déjà acheté ce sort")
+			p.Dealer()
+		} else if p.spell[1] == "Boule de feu" {
+			fmt.Println("Vous connaissez déjà ce sort")
+			p.Dealer()
+		} else {
+			p.AddDealer("Livre de sort: Boule de feu", 1, 25)
+			p.Dealer()
+		}
+	case "5":
 		if p.rangeinventory <= 30 {
 			p.rangeinventory += 10
 			fmt.Println("La taille maximale de votre inventaire passe à", p.rangeinventory, "emplacement !")
@@ -57,9 +72,9 @@ func (p *Player) Dealer() {
 			fmt.Println("Bien essayé mais vous avez déja atteint la capacité d'inventaire max")
 			p.Dealer()
 		}
-	case "5":
-		p.SellDealer()
 	case "6":
+		p.SellDealer()
+	case "7":
 		p.Dealer2()
 	case "0":
 		p.MainMenu()
@@ -71,16 +86,17 @@ func (p *Player) Dealer() {
 	}
 }
 func (p *Player) Dealer2() {
+	// Marchand page 2 Composants
 	fmt.Println("----------------------------")
 	fmt.Println("Page 2: Composants")
 	fmt.Println("Votre or:", p.money)
 	fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 	fmt.Println("------")
-	fmt.Println("Fourrure de loup, 4 Pièces d'or: 1")
-	fmt.Println("Peau de troll, 7 Pièces d'or: 2")
-	fmt.Println("Cuir de sanglier, 3 Pièces d'or: 3")
-	fmt.Println("Plume de corbeau, 1 Pièces d'or: 4")
-	fmt.Println("Retour: 0")
+	fmt.Println("1: Fourrure de loup, 4 Pièces d'or")
+	fmt.Println("2: Peau de troll, 7 Pièces d'or")
+	fmt.Println("3: Cuir de sanglier, 3 Pièces d'or")
+	fmt.Println("4: Plume de corbeau, 1 Pièces d'or")
+	fmt.Println("0: Retour")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
@@ -106,6 +122,7 @@ func (p *Player) Dealer2() {
 }
 
 func (p *Player) SellDealer() {
+	//Marchand menu vente, seulement si des items sont disponible
 	var input string
 	fmt.Println("Page des ventes:")
 	fmt.Println("Votre or:", p.money)
@@ -120,18 +137,21 @@ func (p *Player) SellDealer() {
 		fmt.Println("Votre or:", p.money)
 		fmt.Println("------")
 		if p.inventory["Potion de PV"] > 0 {
-			fmt.Println("Vendre 1 Potion de PV (1 Pièce d'or): 1")
+			fmt.Println("1: Vendre 1 Potion de PV (1 Pièce d'or)")
 		}
 		if p.inventory["Potion de poison"] > 0 {
-			fmt.Println("Vendre 1 Potion de poison (2 Pièces d'or): 2")
+			fmt.Println("2: Vendre 1 Potion de poison (2 Pièces d'or)")
+		}
+		if p.inventory["Potion de mana"] > 0 {
+			fmt.Println("3: Vendre 1 Potion de mana (3 Pièces d'or)")
 		}
 		if p.inventory["Livre de sort: Boule de feu"] > 0 {
-			fmt.Println("Vendre 1 Livre de sort: Boule de feu (10 Pièces d'or): 3")
+			fmt.Println("4: Vendre 1 Livre de sort: Boule de feu (10 Pièces d'or)")
 		}
 		fmt.Println("------")
-		fmt.Println("Page 2, composants: 4")
-		fmt.Println("Page 3, équipement: 5")
-		fmt.Println("Retour: 0")
+		fmt.Println("5: Page 2, composants")
+		fmt.Println("6: Page 3, équipement")
+		fmt.Println("0: Retour")
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
@@ -151,6 +171,14 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "3":
+			if p.inventory["Potion de mana"] > 0 {
+				p.SellInventory("Potion de mana")
+				p.SellDealer()
+			} else {
+				fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
+				p.SellDealer()
+			}
+		case "4":
 			if p.inventory["Livre de sort: Boule de feu"] > 0 {
 				p.SellInventory("Livre de sort: Boule de feu")
 				p.SellDealer()
@@ -158,14 +186,14 @@ func (p *Player) SellDealer() {
 				fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 				p.SellDealer()
 			}
-		case "4":
+		case "5":
 			if p.inventory["Fourrure de loup"] > 0 || p.inventory["Peau de troll"] > 0 || p.inventory["Cuir de sanglier"] > 0 || p.inventory["Plume de corbeau"] > 0 {
 				p.SellDealer2()
 			} else {
 				fmt.Println("Vous n'avez rien à vendre dans cette catégorie")
 				p.SellDealer()
 			}
-		case "5":
+		case "6":
 			if p.inventory["Chapeau de l'aventurier"] > 0 || p.inventory["Tunique de l'aventurier"] > 0 || p.inventory["Bottes de l'aventurier"] > 0 {
 				p.SellDealer3()
 			} else {
@@ -191,26 +219,27 @@ func (p *Player) SellDealer() {
 }
 
 func (p *Player) SellDealer2() {
+	//Menu vente page 2, seulement si des items sont disponible
 	if p.inventory["Fourrure de loup"] > 0 || p.inventory["Peau de troll"] > 0 || p.inventory["Cuir de sanglier"] > 0 || p.inventory["Plume de corbeau"] > 0 {
 		fmt.Println("Page 2, composants:")
 		fmt.Println("Votre or:", p.money)
 		fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 		fmt.Println("------")
 		if p.inventory["Fourrure de loup"] > 0 {
-			fmt.Println("Vendre 1 Fourrure de loup (2 Pièces d'or): 1")
+			fmt.Println("1: Vendre 1 Fourrure de loup (2 Pièces d'or)")
 		}
 		if p.inventory["Peau de troll"] > 0 {
-			fmt.Println("Vendre 1 Peau de troll (3 Pièces d'or): 2")
+			fmt.Println("2: Vendre 1 Peau de troll (3 Pièces d'or)")
 		}
 		if p.inventory["Cuir de sanglier"] > 0 {
-			fmt.Println("Vendre 1 Cuir de sanglier (1 Pièce d'or): 3")
+			fmt.Println("3: Vendre 1 Cuir de sanglier (1 Pièce d'or)")
 		}
 		if p.inventory["Plume de corbeau"] > 0 {
-			fmt.Println("Vendre 1 Plume de corbeau ( 0 Pièces d'or): 4")
+			fmt.Println("4: Vendre 1 Plume de corbeau ( 0 Pièces d'or)")
 		}
 		fmt.Println("------")
-		fmt.Println("Page 3, équipements: 5")
-		fmt.Println("Page 1, utlitaires: 0")
+		fmt.Println("5: Page 3, équipements")
+		fmt.Println("0: Page 1, utlitaires")
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
@@ -275,23 +304,24 @@ func (p *Player) SellDealer2() {
 	}
 }
 func (p *Player) SellDealer3() {
+	//Menu vente page 3, seulement si les items sont disponible
 	if p.inventory["Chapeau de l'aventurier"] > 0 || p.inventory["Tunique de l'aventurier"] > 0 || p.inventory["Bottes de l'aventurier"] > 0 {
 		fmt.Println("Page 3, équipements:")
 		fmt.Println("Votre or:", p.money)
 		fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 		fmt.Println("------")
 		if p.inventory["Chapeau de l'aventurier"] > 0 {
-			fmt.Println("Vendre 1 Chapeau de l'aventurier (12 Pièces d'or): 1")
+			fmt.Println("1: Vendre 1 Chapeau de l'aventurier (12 Pièces d'or)")
 		}
 		if p.inventory["Tunique de l'aventurier"] > 0 {
-			fmt.Println("Vendre 1 Tunique de l'aventurier (30 Pièces d'or): 2")
+			fmt.Println("2: Vendre 1 Tunique de l'aventurier (30 Pièces d'or)")
 		}
 		if p.inventory["Bottes de l'aventurier"] > 0 {
-			fmt.Println("Vendre 1 Bottes de l'aventurier (18 Pièces d'or): 3")
+			fmt.Println("3: Vendre 1 Bottes de l'aventurier (18 Pièces d'or)")
 		}
 		fmt.Println("------")
-		fmt.Println("Page 2, composants: 4")
-		fmt.Println("Page 1, utilitaires: 0")
+		fmt.Println("4: Page 2, composants")
+		fmt.Println("0: Page 1, utilitaires")
 		fmt.Scanln(&input)
 		switch input {
 		case "1":

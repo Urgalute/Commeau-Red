@@ -6,7 +6,7 @@ import (
 )
 
 func (p Player) WelcomeScreen() {
-	fmt.Println("Bienvenu dans le Projet Red", "\n", "Commencer une nouvelle partie: 1", "\n", "Quitter: 0")
+	fmt.Println("Bienvenu dans le Projet Red", "\n", "1: Commencer une nouvelle partie", "\n", "0: Quitter")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
@@ -41,26 +41,31 @@ func (p *Player) CharCrea() {
 	if len(input1) > 15 {
 		input1 = input1[:15]
 	}
-	input1 = strings.ToLower(input1)
-	input1 = strings.Title(input1)
-	fmt.Println(input1, "sera donc votre nom..")
-	var input2 string
-	fmt.Println("Maintenant, choississez une race parmis les ces trois choix")
-	fmt.Println("\n", "Humain: 1", "\n", "Elfe: 2", "\n", "Nain: 3")
-	fmt.Println("Les Humains commences avec 100 PV max", "\n", "Les Elfes commences avec 80 PV max", "\n", "Les Nains commences avec 120 PV max")
-	fmt.Scanln(&input2)
-	switch input2 {
-	case "1":
-		input2 = "Humain"
-	case "2":
-		input2 = "Elfe"
-	case "3":
-		input2 = "Nain"
-	default:
-		fmt.Println("---------------------------------------------------------------------------------------------------------")
-		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
-		fmt.Println("---------------------------------------------------------------------------------------------------------")
+	if len(input1) == 0 {
+		fmt.Println("Faite un effort, entrez au moin une lettre valide, histoire de dire")
 		p.CharCrea()
+	} else {
+		input1 = strings.ToLower(input1)
+		input1 = strings.Title(input1)
+		fmt.Println(input1, "sera donc votre nom..")
+		var input2 string
+		fmt.Println("Maintenant, choississez une race parmis les ces trois choix")
+		fmt.Println("\n", "1: Humain", "\n", "2: Elfe", "\n", "3: Nain")
+		fmt.Println("Les Humains commences avec 100 PV max", "\n", "Les Elfes commences avec 80 PV max", "\n", "Les Nains commences avec 120 PV max")
+		fmt.Scanln(&input2)
+		switch input2 {
+		case "1":
+			input2 = "Humain"
+		case "2":
+			input2 = "Elfe"
+		case "3":
+			input2 = "Nain"
+		default:
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
+			fmt.Println("---------------------------------------------------------------------------------------------------------")
+			p.CharCrea()
+		}
+		Initplayer(input1, input2)
 	}
-	Initplayer(input1, input2, "")
 }

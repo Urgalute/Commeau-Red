@@ -3,9 +3,9 @@ package ProjetRed
 import "fmt"
 
 type Equipment struct {
-	head  string
-	torse string
-	foot  string
+	head  map[string]int
+	torse map[string]int
+	foot  map[string]int
 }
 type Player struct {
 	name           string
@@ -47,9 +47,9 @@ func Initplayer(name string, race string) Player {
 	p1.money = map[string]int{"Pièces d'or": 200}
 	p1.inventory = map[string]int{"Potion de PV": 3}
 	p1.rangeinventory = 10
-	p1.equipment.head = ""
-	p1.equipment.torse = ""
-	p1.equipment.foot = ""
+	p1.equipment.head = map[string]int{}
+	p1.equipment.torse = map[string]int{}
+	p1.equipment.foot = map[string]int{}
 	p1.DisplayPlayerInfo()
 	p1.MainMenu()
 	return p1
@@ -64,7 +64,27 @@ func (p *Player) DisplayPlayerInfo() {
 	for i := range p.spell {
 		fmt.Println(p.spell[i])
 	}
-	fmt.Println("Equipement:", p.equipment)
+	fmt.Println("Equipement:")
+	for i := range p.equipment.head {
+		if p.equipment.head[i] < 0 {
+			fmt.Println(i, "0 / 50")
+		} else {
+			fmt.Println(i, p.equipment.head[i], "/ 50")
+		}
+	}
+	for i := range p.equipment.torse {
+		if p.equipment.torse[i] < 0 {
+			fmt.Println(i, "0 / 50")
+		} else {
+			fmt.Println(i, p.equipment.torse[i], "/ 50")
+		}
+	}
+	for i := range p.equipment.foot {
+		if p.equipment.foot[i] < 0 {
+			fmt.Println(i, "0 / 50")
+		} else {
+			fmt.Println(i, p.equipment.foot[i], "/ 50")
+		}
+	}
 	fmt.Println("----------------------------")
-	
 }

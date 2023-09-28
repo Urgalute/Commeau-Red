@@ -2,7 +2,6 @@ package ProjetRed
 
 import (
 	"fmt"
-	"time"
 )
 
 // Inventaire de combat avec les actions associées
@@ -18,48 +17,86 @@ func (p *Player) FightInventory() {
 	}
 	if p.inventory["Potion de mana"] > 0 {
 		fmt.Println("2: Utiliser une potion de mana (+25 PM)")
-		fmt.Println("0: Retour")
-		fmt.Println("----------------------------")
-		fmt.Scanln(&input)
-		switch input {
-		case "1":
-			if p.inventory["Potion de PV"] > 0 {
-				if p.TakePot(); true {
-					p.AttackGoblin(Turn)
-				} else {
-					p.FightInventory()
-				}
+	}
+	if p.inventory["Potion de poison"] > 0 {
+		fmt.Println("3: Utiliser une potion de poison (Inflige 10 dégât par seconde pendant 3 secondes)")
+	}
+	fmt.Println("0: Retour")
+	fmt.Println("----------------------------")
+	fmt.Scanln(&input)
+	switch input {
+	case "1":
+		if p.inventory["Potion de PV"] > 0 {
+			if p.actuallife <= p.maxlife-50 {
+				p.TakePot()
+				p.AttackGoblin(Turn)
 			} else {
-				fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
+				fmt.Println("Vous ne pouvez pas prendre de potion de vie")
 				p.FightInventory()
 			}
-		case "2":
-			if p.inventory["Potion de mana"] > 0 {
-				if p.TakeManaPot(); true {
-					p.AttackGoblin(Turn)
-				} else {
-					p.FightInventory()
-				}
-			} else {
-				fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
-				p.FightInventory()
-			}
-		case "0":
-			p.TrainingFight(Turn)
-		default:
-			fmt.Println("---------------------------------------------------------------------------------------------------------")
-			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
-			fmt.Println("---------------------------------------------------------------------------------------------------------")
+		} else {
+			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.FightInventory()
 		}
+	case "2":
+		if p.inventory["Potion de mana"] > 0 {
+			if p.actualmana <= p.maxmana-25 {
+				p.TakeManaPot()
+				p.AttackGoblin(Turn)
+			} else {
+				fmt.Println("Vous ne pouvez pas prendre de potion de vie")
+				p.FightInventory()
+			}
+		} else {
+			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
+			p.FightInventory()
+		}
+	case "3":
+		if p.inventory["Potion de poison"] > 0 {
+			if p.actuallife <= p.actuallife-30 {
+				fmt.Println("Vous êtes sûr de vous ?")
+				fmt.Println("1: Oui")
+				fmt.Println("0: Non")
+				fmt.Scanln(&input)
+				switch input {
+				case "1":
+					p.PoisonPot()
+					p.AttackGoblin(Turn)
+				case "0":
+					p.FightInventory()
+				default:
+					fmt.Println("---------------------------------------------------------------------------------------------------------")
+					fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
+					fmt.Println("---------------------------------------------------------------------------------------------------------")
+					p.FightInventory()
+				}
+			} else {
+				p.PoisonPot()
+				p.AttackGoblin(Turn)
+			}
+		} else {
+			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
+			p.FightInventory()
+		}
+	case "0":
+		p.TrainingFight(Turn)
+	default:
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
+		fmt.Println("---------------------------------------------------------------------------------------------------------")
+		p.FightInventory()
 	}
 }
+
 func (p *Player) AccessInventory() {
 	//Affiche l'inventaire et les actions possible
 	var input string
 	fmt.Println("Menu inventaire:")
 	fmt.Println("------")
-	fmt.Println("Votre argent:", p.money["Pièces d'or"], "Pièces d'or")
+	fmt.Println("Votre argent:")
+	for i := range p.money {
+		fmt.Println(p.money[i], i)
+	}
 	fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 	fmt.Println("Vos objets:")
 	for i := range p.inventory {
@@ -74,13 +111,13 @@ func (p *Player) AccessInventory() {
 	if p.inventory["Potion de poison"] > 0 {
 		fmt.Println("3: Utiliser une potion de poison (Inflige 10 dégâts par seconde pendant 3 secondes)")
 	}
-	if p.inventory["Chapeau de l'aventurier"] > 0 && p.equipment.head != "Chapeau de l'aventurier" {
+	if p.inventory["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] <= 0 {
 		fmt.Println("4: Equiper le chapeau de l'aventurier (+10 PV et PM max)")
 	}
-	if p.inventory["Tunique de l'aventurier"] > 0 && p.equipment.torse != "Tunique de l'aventurier" {
+	if p.inventory["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] <= 0 {
 		fmt.Println("5: Equiper la tunique de l'aventurier (+25 PV et PM max)")
 	}
-	if p.inventory["Bottes de l'aventurier"] > 0 && p.equipment.foot != "Bottes de l'aventurier" {
+	if p.inventory["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] <= 0 {
 		fmt.Println("6: Equiper les bottes de l'aventurier (+15 PV et PM max)")
 	}
 	if p.inventory["Livre de sort: Boule de feu"] > 0 {
@@ -100,10 +137,10 @@ func (p *Player) AccessInventory() {
 		}
 	case "3":
 		if p.inventory["Potion de poison"] > 0 {
-			fmt.Println("A l'avenir quand vous verrez un liquide vert, fûmant, dans une fiole en verre, évitez de le boire..")
-			time.Sleep(3 * time.Second)
 			p.PoisonPot()
-			p.AccessInventory()
+			if p.Wasted() {
+				p.AccessInventory()
+			}
 		} else {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
@@ -117,11 +154,14 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "4":
-		if p.equipment.head == "Chapeau de l'aventurier" {
+		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
+			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
+			p.AccessInventory()
+		} else if p.equipment.head["Chapeau de l'aventurier"] > 0 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
 		} else if p.inventory["Chapeau de l'aventurier"] > 0 {
-			p.equipment.head = "Chapeau de l'aventurier"
+			p.equipment.head["Chapeau de l'aventurier"] = 50
 			p.maxlife += 10
 			p.maxmana += 10
 			p.inventory["Chapeau de l'aventurier"]--
@@ -133,11 +173,14 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "5":
-		if p.equipment.torse == "Tunique de l'aventurier" {
+		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
+			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
+			p.AccessInventory()
+		} else if p.equipment.torse["Tunique de l'aventurier"] > 0 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
 		} else if p.inventory["Tunique de l'aventurier"] > 0 {
-			p.equipment.torse = "Tunique de l'aventurier"
+			p.equipment.torse["Tunique de l'aventurier"] = 50
 			p.maxlife += 25
 			p.maxmana += 25
 			p.inventory["Tunique de l'aventurier"]--
@@ -149,11 +192,14 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "6":
-		if p.equipment.foot == "Bottes de l'aventurier" {
+		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
+			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
+			p.AccessInventory()
+		} else if p.equipment.foot["Bottes de l'aventurier"] > 0 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
 		} else if p.inventory["Bottes de l'aventurier"] > 0 {
-			p.equipment.foot = "Bottes de l'aventurier"
+			p.equipment.foot["Bottes de l'aventurier"] = 50
 			p.maxlife += 15
 			p.maxmana += 15
 			p.inventory["Bottes de l'aventurier"]--
@@ -232,7 +278,7 @@ func (p *Player) CheckInventory() {
 	}
 }
 func (p *Player) SellInventory(i string) {
-	//Après la vente, definie un pris de vente et l'ajoute à mon or, + message l'indiquant
+	//Après la vente, definie un pris de vente et l'ajoute à mon or, + message
 	var j int
 	p.inventory[i]--
 	switch i {
@@ -264,4 +310,55 @@ func (p *Player) SellInventory(i string) {
 	fmt.Println("Vous avez vendu 1", i, "pour", j, "Pièces d'or")
 	p.DeleteInventory()
 	p.money["Pièces d'or"] += j
+}
+func (p *Player) CheckEquipment(rand int, dammage int) {
+	if p.equipment.head["Chapeau de l'aventurier"] > 0 {
+		if rand > 0 && rand <= 33 {
+			p.equipment.head["Chapeau de l'aventurier"] -= dammage
+			for i := range p.equipment.head {
+				fmt.Println("Vous perdez", dammage, "de durabilité sur votre Chapeau de l'aventurier", p.equipment.head[i], "/ 50)")
+			}
+			if p.equipment.head["Chapeau de l'aventurier"] == 0 {
+				p.equipment.head["Chapeau de l'aventurier"] -= 5
+			}
+			if p.equipment.head["Chapeau de l'aventurier"] < 0 {
+				fmt.Println("La durabilité de Chapeau de l'aventurier est à 0, vous perdez le bonus de statistique associé")
+				p.maxlife -= 10
+				p.maxmana -= 10
+			}
+		}
+	}
+	if p.equipment.torse["Tunique de l'aventurier"] > 0 {
+		if rand > 33 && rand <= 66 {
+			p.equipment.torse["Tunique de l'aventurier"] -= dammage
+			for i := range p.equipment.torse {
+				fmt.Println("Vous perdez", dammage, "de durabilité sur votre Tunique de l'aventurier", p.equipment.torse[i], "/ 50)")
+			}
+			if p.equipment.torse["Tunique de l'aventurier"] == 0 {
+				p.equipment.torse["Tunique de l'aventurier"] -= 5
+			}
+			if p.equipment.torse["Tunique de l'aventurier"] < 0 {
+				fmt.Println("La durabilité de votre Tunique de l'aventurier est à 0, vous perdez le bonus de statistique associé")
+				p.maxlife -= 25
+				p.maxmana -= 25
+			}
+
+		}
+	}
+	if p.equipment.foot["Bottes de l'aventurier"] > 0 {
+		if rand > 66 && rand <= 99 {
+			p.equipment.foot["Bottes de l'aventurier"] -= dammage
+			for i := range p.equipment.foot {
+				fmt.Println("Vous perdez", dammage, "de durabilité sur vos Bottes de l'aventurier", p.equipment.foot[i], "/ 50)")
+			}
+			if p.equipment.foot["Bottes de l'aventurier"] == 0 {
+				p.equipment.foot["Bottes de l'aventurier"] -= 5
+			}
+			if p.equipment.foot["Bottes de l'aventurier"] < 0 {
+				fmt.Println("La durabilité de vos Bottes de l'aventurier est à 0, vous perdez le bonus de statistique associé")
+				p.maxlife -= 15
+				p.maxmana -= 15
+			}
+		}
+	}
 }

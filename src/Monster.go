@@ -17,7 +17,7 @@ func InitGoblin() {
 	Gobelin.maxlife = 40
 	Gobelin.actuallife = Gobelin.maxlife
 	Gobelin.dammage = 5
-	Gobelin.loot = map[string]int{"Pièces d'or": 5}
+	Gobelin.loot = map[string]int{"Pièces d'or": 10}
 	Turn = 1
 }
 func (m Monster) DisplayMonsterInfo() {

@@ -6,11 +6,10 @@ import (
 )
 
 // Prendre une potion de PV
-func (p *Player) TakePot() bool {
-	i := false
+func (p *Player) TakePot() {
 	if p.actuallife > p.maxlife-50 {
 		fmt.Println("----------------------------")
-		fmt.Println("Vous ne pouvez pas prendre de potion")
+		fmt.Println("Vous ne pouvez pas prendre de potion de vie")
 	}
 	if p.actuallife <= p.maxlife-50 && p.inventory["Potion de PV"] > 0 {
 		p.inventory["Potion de PV"]--
@@ -18,18 +17,18 @@ func (p *Player) TakePot() bool {
 		fmt.Println("----------------------------")
 		fmt.Println("Une potion de PV a été utilisé, nouveau montant de PV:", p.actuallife, "/", p.maxlife)
 		p.DeleteInventory()
-		i = true
 		if p.inventory["Potion de PV"] > 0 {
 			fmt.Println("Il vous en reste:", p.inventory["Potion de PV"])
 		}
 		fmt.Println("----------------------------")
 	}
-	return i
 }
 
 // Potion de poison
 func (p *Player) PoisonPot() {
 	if p.inventory["Potion de poison"] > 0 {
+		fmt.Println("A l'avenir quand vous verrez un liquide vert, fûmant, dans une fiole en verre, évitez de le boire..")
+		time.Sleep(3 * time.Second)
 		for i := 0; i < 3; i++ {
 			p.actuallife -= 10
 			fmt.Println("Votre vie:", p.actuallife, "/", p.maxlife)
@@ -37,6 +36,7 @@ func (p *Player) PoisonPot() {
 		}
 		p.inventory["Potion de poison"]--
 		p.DeleteInventory()
+		p.Wasted()
 	}
 }
 
@@ -51,23 +51,20 @@ func (p *Player) SpellBook() {
 }
 
 // Potion de mana
-func (p *Player) TakeManaPot() bool {
-	i := false
+func (p *Player) TakeManaPot() {
 	if p.actualmana > p.maxmana-25 {
 		fmt.Println("----------------------------")
-		fmt.Println("Vous ne pouvez pas prendre de potion")
+		fmt.Println("Vous ne pouvez pas prendre de potion de mana")
 	}
-	if p.actualmana <= p.maxmana-50 && p.inventory["Potion de mana"] > 0 {
+	if p.actualmana <= p.maxmana-25 && p.inventory["Potion de mana"] > 0 {
 		p.inventory["Potion de mana"]--
 		p.actualmana += 25
 		fmt.Println("----------------------------")
 		fmt.Println("Une potion de mana a été utilisé, nouveau montant de mana:", p.actualmana, "/", p.maxmana)
 		p.DeleteInventory()
-		i = true
 		if p.inventory["Potion de mana"] > 0 {
 			fmt.Println("Il vous en reste:", p.inventory["Potion de mana"])
 		}
 		fmt.Println("----------------------------")
 	}
-	return i
 }

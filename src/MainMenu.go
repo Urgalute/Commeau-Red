@@ -2,7 +2,11 @@ package ProjetRed
 
 import (
 	"fmt"
+	"math/rand"
 )
+
+var Randinitgob int
+var Randinitplayer int
 
 func (p *Player) MainMenu() {
 	var input string
@@ -13,9 +17,9 @@ func (p *Player) MainMenu() {
 	fmt.Println("2: Inventaire")
 	fmt.Println("3: Marchand")
 	fmt.Println("4: Forgeron")
-	fmt.Println("4: Combat d'entrainement")
+	fmt.Println("5: Combat d'entrainement")
 	fmt.Println("9: WhoAreThey?")
-	fmt.Println("0: Retour")
+	fmt.Println("0: Quitter")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
@@ -36,9 +40,18 @@ func (p *Player) MainMenu() {
 		fmt.Println("------")
 		p.BlackSmith()
 	case "5":
+		Randinitgob = rand.Intn(20-1) + 1
+		Randinitplayer = rand.Intn(20-1) + 1
 		fmt.Println("Vous rencontrez un Gobelin !")
 		InitGoblin()
-		p.TrainingFight(Turn)
+		fmt.Println("Jet d'initiative:", Randinitplayer, "Le gobelin a fait:", Randinitgob)
+		if Randinitgob > Randinitplayer {
+			fmt.Println("Le gobelin commence !")
+			p.AttackGoblin(Turn)
+		} else {
+			fmt.Println("Vous commencez !")
+			p.TrainingFight(Turn)
+		}
 	case "9":
 		p.Whoarethey()
 	case "0":
@@ -52,6 +65,6 @@ func (p *Player) MainMenu() {
 	}
 }
 func (p *Player) Whoarethey() {
-	fmt.Println("ABBA, Steven Spielberg")
+	fmt.Println("ABBA, Steven Spielberg, Queen")
 	p.MainMenu()
 }

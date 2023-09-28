@@ -4,7 +4,10 @@ import "fmt"
 
 func (p *Player) BlackSmith() {
 	if p.money["Pièces d'or"] >= 5 {
-		fmt.Println("Votre or:", p.money)
+		fmt.Println("Votre or:")
+		for i := range p.money {
+			fmt.Println(p.money[i], i)
+		}
 		fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 		fmt.Println("Voilà ce que je peut vous proposer.")
 		{
@@ -35,6 +38,9 @@ func (p *Player) BlackSmith() {
 				p.inventory["Cuir de sanglier"]--
 				p.DeleteInventory()
 				p.BlackSmith()
+			} else {
+				fmt.Println("Bien essayé mais il vous manque quelques composants")
+				p.BlackSmith()
 			}
 		case "2":
 			if p.inventory["Fourrure de loup"] > 1 && p.inventory["Peau de troll"] > 0 {
@@ -43,6 +49,9 @@ func (p *Player) BlackSmith() {
 				p.inventory["Peau de troll"]--
 				p.DeleteInventory()
 				p.BlackSmith()
+			} else {
+				fmt.Println("Bien essayé mais il vous manque quelques composants")
+				p.BlackSmith()
 			}
 		case "3":
 			if p.inventory["Fourrure de loup"] > 0 && p.inventory["Cuir de sanglier"] > 0 {
@@ -50,6 +59,9 @@ func (p *Player) BlackSmith() {
 				p.inventory["Fourrure de loup"]--
 				p.inventory["Cuir de sanglier"]--
 				p.DeleteInventory()
+				p.BlackSmith()
+			} else {
+				fmt.Println("Bien essayé mais il vous manque quelques composants")
 				p.BlackSmith()
 			}
 		case "0":

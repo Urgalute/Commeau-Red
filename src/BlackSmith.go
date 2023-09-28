@@ -12,7 +12,7 @@ func (p *Player) BlackSmith() {
 		fmt.Println("Voilà ce que je peut vous proposer.")
 		{
 			if p.inventory["Plume de corbeau"] >= 1 && p.inventory["Cuir de sanglier"] >= 1 {
-				fmt.Println("1: Chapeau de l'aventurier (5 Pièces d'or, 1 Plume de corbeau, 1 Cuir de sanglier)")
+				fmt.Println("1: Chapeau de l'aventurier (+15 PV (5 Pièces d'or, 1 Plume de corbeau, 1 Cuir de sanglier)")
 			} else {
 				fmt.Println("Chapeau de l'aventurie: Il vous manque quelques composants pour le fabriquer:", "Plume de corbeau:", p.inventory["Plume de corbeau"], "/", "1,", "Cuir de sanglier", p.inventory["Cuir de sanglier"], "/", "1")
 			}

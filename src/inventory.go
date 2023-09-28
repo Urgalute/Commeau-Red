@@ -21,6 +21,8 @@ func (p *Player) FightInventory() {
 	if p.inventory["Potion de poison"] > 0 {
 		fmt.Println("3: Utiliser une potion de poison (Inflige 10 dégât par seconde pendant 3 secondes)")
 	}
+	if p.inventory["Marteau de forgeron"] > 0 {
+		fmt.Println("4: Utiliser un marteau de forgeron (Répare votre équipement)")
 	fmt.Println("0: Retour")
 	fmt.Println("----------------------------")
 	fmt.Scanln(&input)
@@ -78,6 +80,46 @@ func (p *Player) FightInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.FightInventory()
 		}
+	case "4": if p.equipment.head["Chapeau de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
+	} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
+		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
+			p.maxlife += 10
+			p.maxmana += 10
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.head["Chapeau de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre tête")
+	}
+	if p.equipment.torse["Tunique de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
+	} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
+		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
+			p.maxlife += 25
+			p.maxmana += 25
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.torse["Tunique de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre torse")
+	}
+	if p.equipment.foot["Bottes de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
+	} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
+		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
+			p.maxlife += 15
+			p.maxmana += 15
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.foot["Bottes de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
+	}
+	p.Dealer()
 	case "0":
 		p.TrainingFight(Turn)
 	default:
@@ -87,7 +129,7 @@ func (p *Player) FightInventory() {
 		p.FightInventory()
 	}
 }
-
+}
 func (p *Player) AccessInventory() {
 	//Affiche l'inventaire et les actions possible
 	var input string
@@ -110,6 +152,9 @@ func (p *Player) AccessInventory() {
 	}
 	if p.inventory["Potion de poison"] > 0 {
 		fmt.Println("3: Utiliser une potion de poison (Inflige 10 dégâts par seconde pendant 3 secondes)")
+	}
+	if p.inventory["Marteau de forgeron"] > 0 {
+		fmt.Println("4: Utiliser un marteau de forgeron (Répare votre équipement)")
 	}
 	if p.inventory["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] <= 0 {
 		fmt.Println("4: Equiper le chapeau de l'aventurier (+10 PV et PM max)")

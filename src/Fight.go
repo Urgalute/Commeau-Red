@@ -45,7 +45,6 @@ func (p *Player) AttackGoblin(turn int) {
 	// Tour ennemie
 	var dammage int
 	rand1 := rand.Intn(99-1) + 1
-	fmt.Println(rand1)
 	time.Sleep(1 * time.Second)
 	if Turn%3 == 0 {
 		Gobelin.dammage *= 2
@@ -86,7 +85,7 @@ func (p *Player) AttackPlayer(turn int) {
 			Turn = 1
 		}
 		p.money["Pièces d'or"] += 10
-		fmt.Println("Total:", p.money["Pièces d'or"])
+		fmt.Println("Total:", p.money["Pièces d'or"],"Pièces d'or")
 		fmt.Println("Retour au menu principal")
 		p.MainMenu()
 	}

@@ -119,7 +119,7 @@ func (p *Player) FightInventory() {
 	} else {
 		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
 	}
-	p.Dealer()
+	p.FightInventory()
 	case "0":
 		p.TrainingFight(Turn)
 	default:
@@ -157,16 +157,16 @@ func (p *Player) AccessInventory() {
 		fmt.Println("4: Utiliser un marteau de forgeron (Répare votre équipement)")
 	}
 	if p.inventory["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] <= 0 {
-		fmt.Println("4: Equiper le chapeau de l'aventurier (+10 PV et PM max)")
+		fmt.Println("5: Equiper le chapeau de l'aventurier (+10 PV et PM max)")
 	}
 	if p.inventory["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] <= 0 {
-		fmt.Println("5: Equiper la tunique de l'aventurier (+25 PV et PM max)")
+		fmt.Println("6: Equiper la tunique de l'aventurier (+25 PV et PM max)")
 	}
 	if p.inventory["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] <= 0 {
-		fmt.Println("6: Equiper les bottes de l'aventurier (+15 PV et PM max)")
+		fmt.Println("7: Equiper les bottes de l'aventurier (+15 PV et PM max)")
 	}
 	if p.inventory["Livre de sort: Boule de feu"] > 0 {
-		fmt.Println("7: Apprendre le sort Boule de feu")
+		fmt.Println("8: Apprendre le sort Boule de feu")
 	}
 	fmt.Println("0: Retour")
 	fmt.Println("----------------------------")
@@ -198,7 +198,47 @@ func (p *Player) AccessInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-	case "4":
+	case "4": if p.equipment.head["Chapeau de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
+	} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
+		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
+			p.maxlife += 10
+			p.maxmana += 10
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.head["Chapeau de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre tête")
+	}
+	if p.equipment.torse["Tunique de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
+	} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
+		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
+			p.maxlife += 25
+			p.maxmana += 25
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.torse["Tunique de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre torse")
+	}
+	if p.equipment.foot["Bottes de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
+	} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
+		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
+			p.maxlife += 15
+			p.maxmana += 15
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.foot["Bottes de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
+	} else {
+		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
+	}
+	p.AccessInventory()
+	case "5":
 		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -217,7 +257,7 @@ func (p *Player) AccessInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-	case "5":
+	case "6":
 		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -236,7 +276,7 @@ func (p *Player) AccessInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-	case "6":
+	case "7":
 		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -255,7 +295,7 @@ func (p *Player) AccessInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-	case "7":
+	case "8":
 		if p.inventory["Livre de sort: Boule de feu"] > 0 {
 			p.SpellBook()
 		} else {

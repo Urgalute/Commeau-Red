@@ -7,6 +7,8 @@ type Monster struct {
 	maxlife    int
 	actuallife int
 	dammage    int
+	xp int
+	level int
 	loot       map[string]int
 }
 
@@ -14,17 +16,17 @@ var Gobelin Monster
 
 func InitGoblin() {
 	Gobelin.name = "Gobelin d'entrainement"
-	Gobelin.maxlife = 40
 	Gobelin.actuallife = Gobelin.maxlife
-	Gobelin.dammage = 5
-	Gobelin.loot = map[string]int{"Pièces d'or": 10}
+
 	Turn = 1
+
 }
 func (m Monster) DisplayMonsterInfo() {
-	fmt.Println("Nom du monstre:", m.name)
-	fmt.Println("Vie max:", m.maxlife)
-	fmt.Println("Vie actuelle ", m.actuallife)
-	fmt.Println("Dégat", m.dammage)
+	fmt.Println("Nom du monstre:", Gobelin.name)
+fmt.Println("Niveau:", Gobelin.level)
+	fmt.Println("Vie max:", Gobelin.maxlife)
+	fmt.Println("Vie actuelle ", Gobelin.actuallife)
+	fmt.Println("Dégat", Gobelin.dammage)
 	for i := range Gobelin.loot {
 		fmt.Println("Loot:", Gobelin.loot["Pièces d'or"], i)
 	}

@@ -10,10 +10,13 @@ func (p Player) WelcomeScreen() {
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		p.CharCrea()
 	case "0":
+		ClearTerminal()
 		fmt.Println("A la prochaine !")
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -51,16 +54,20 @@ func (p *Player) CharCrea() {
 		var input2 string
 		fmt.Println("Maintenant, choississez une race parmis les ces trois choix")
 		fmt.Println("\n", "1: Humain", "\n", "2: Elfe", "\n", "3: Nain")
-		fmt.Println("Les Humains commences avec 100 PV max", "\n", "Les Elfes commences avec 80 PV max", "\n", "Les Nains commences avec 120 PV max")
+		fmt.Println("Les Humains commences avec 100 PV max, 50 PM max", "\n", "Les Elfes commences avec 80 PV max, 75 PM max", "\n", "Les Nains commences avec 120 PV max, 25 PM max")
 		fmt.Scanln(&input2)
 		switch input2 {
 		case "1":
+			ClearTerminal()
 			input2 = "Humain"
 		case "2":
+			ClearTerminal()
 			input2 = "Elfe"
 		case "3":
+			ClearTerminal()
 			input2 = "Nain"
 		default:
+			ClearTerminal()
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
 			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 			fmt.Println("---------------------------------------------------------------------------------------------------------")

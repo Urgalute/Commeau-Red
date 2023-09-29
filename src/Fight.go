@@ -13,7 +13,7 @@ func (p *Player) TrainingFight(turn int) {
 	fmt.Println("-------------")
 	fmt.Println("C'est à votre tour ! (Tour", Turn, ")")
 	fmt.Println("---------")
-	fmt.Println("1: Attaquer (Inflige 10 dégâts)")
+	fmt.Println("1: Attaquer (Inflige",p.dammage,"dégâts)")
 	fmt.Println("2: Sort")
 	fmt.Println("4: Info ennemie")
 	fmt.Println("5: Info personnage")
@@ -22,18 +22,24 @@ func (p *Player) TrainingFight(turn int) {
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		p.AttackPlayer(turn)
 	case "2":
+		ClearTerminal()
 		p.CastSpell()
 	case "4":
+		ClearTerminal()
 		Gobelin.DisplayMonsterInfo()
 		p.TrainingFight(turn)
 	case "5":
+		ClearTerminal()
 		p.DisplayPlayerInfo()
 		p.TrainingFight(turn)
 	case "6":
+		ClearTerminal()
 		p.FightInventory()
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -43,27 +49,25 @@ func (p *Player) TrainingFight(turn int) {
 
 func (p *Player) AttackGoblin(turn int) {
 	// Tour ennemie
-	var dammage int
+	fmt.Println("C'est au tour de l'ennemie ! (Tour",Turn,")")
+	
 	rand1 := rand.Intn(99-1) + 1
 	time.Sleep(1 * time.Second)
 	if Turn%3 == 0 {
-		Gobelin.dammage *= 2
-		dammage = 10
-		p.CheckEquipment(rand1, dammage)
+		p.actuallife -= Gobelin.dammage * 2
 	} else {
-		Gobelin.dammage = 5
-		dammage = 5
-		p.CheckEquipment(rand1, dammage)
+		p.actuallife -= Gobelin.dammage 
 	}
-	p.actuallife -= Gobelin.dammage
 	if p.actuallife > 0 {
 		fmt.Println("L'ennemi vous inflige", Gobelin.dammage, "points de dégâts")
 		fmt.Println("Votre vie:", p.actuallife, "/", p.maxlife)
+		p.CheckEquipment(rand1, Gobelin.dammage)
 		if Randinitplayer > Randinitgob {
 			Turn++
 		}
 		p.TrainingFight(turn)
 	} else {
+		p.CheckEquipment(rand1, Gobelin.dammage)
 		p.Wasted()
 	}
 }
@@ -80,8 +84,9 @@ func (p *Player) AttackPlayer(turn int) {
 		p.AttackGoblin(turn)
 	} else {
 		fmt.Println("Vous avez vaincu le gobelin !")
+		p.Experience()
 		for i := range Gobelin.loot {
-			fmt.Println("Vous gagnez:", Gobelin.loot["Pièces d'or"], i)
+			fmt.Println("Vous gagnez", Gobelin.loot["Pièces d'or"], i)
 			Turn = 1
 		}
 		p.money["Pièces d'or"] += 10
@@ -97,18 +102,22 @@ func (p *Player) CastSpell() {
 	fmt.Println("Sort disponible:")
 	fmt.Println("1: Coup de poing (Inflige 12 dégât), 15 Mana")
 	if p.spell[1] == "Boule de feu" {
-		fmt.Println("2: Boule de feu, 25 Mana")
+		fmt.Println("2: Boule de feu (Inflige 18 dégât), 25 Mana")
 	}
 	fmt.Println("0: Retour")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		p.Punch()
 	case "2":
+		ClearTerminal()
 		p.FireBall()
 	case "0":
+		ClearTerminal()
 		p.TrainingFight(Turn)
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -129,9 +138,11 @@ func (p *Player) Punch() {
 			}
 			p.AttackGoblin(Turn)
 		} else {
+			ClearTerminal()
 			fmt.Println("Vous avez vaincu le gobelin !")
+			p.Experience()
 			for i := range Gobelin.loot {
-				fmt.Println("Vous gagnez:", Gobelin.loot["Pièces d'or"], i)
+				fmt.Println("Vous gagnez", Gobelin.loot["Pièces d'or"], i)
 				Turn = 1
 			}
 			p.money["Pièces d'or"] += 10
@@ -159,15 +170,16 @@ func (p *Player) FireBall() {
 			}
 			p.AttackGoblin(Turn)
 		} else {
+			ClearTerminal()
 			fmt.Println("Vous avez vaincu le gobelin !")
+			p.Experience()
 			for i := range Gobelin.loot {
-				fmt.Println("Vous gagnez:", Gobelin.loot["Pièces d'or"], i)
+				fmt.Println("Vous gagnez", Gobelin.loot["Pièces d'or"], i)
 				Turn = 1
 			}
 			p.money["Pièces d'or"] += 10
 			fmt.Println("Total:", p.money["Pièces d'or"])
 			fmt.Println("Retour au menu principal")
-			time.Sleep(3 * time.Second)
 			p.MainMenu()
 		}
 	} else if p.actualmana >= 25 && p.spell[1] != "Boule de feu" {

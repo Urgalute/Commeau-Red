@@ -21,7 +21,7 @@ func (p *Player) Dealer() {
 	}
 	fmt.Println("2: Acheter une potion de poison, 10 Pièces d'or")
 	fmt.Println("3: Acheter une potion de mana (+25 PM), 5 Pièces d'or")
-	fmt.Println("4: Acheter un marteau de forgeron (Vous permet de réparer votre équipement sans passer par le marchand), 20 Pièces d'or")
+	fmt.Println("4: Acheter un marteau de forgeron (Vous permet de réparer votre équipement vous même), 20 Pièces d'or")
 	if p.spell[1] != "Boule de feu" && p.inventory["Livre de sort: Boule de feu"] <= 0 {
 		fmt.Println("5: Acheter le Livre de sort: Boule de feu, 25 Pièces d'or")
 	}
@@ -44,6 +44,7 @@ func (p *Player) Dealer() {
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		if p.inventory["Potion de PV"] < 1 {
 			p.AddDealer("Potion de PV", 1, 0)
 			p.Dealer()
@@ -55,6 +56,7 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "2":
+		ClearTerminal()
 		if p.inventory["Potion de poison"] < p.rangeinventory {
 			p.AddDealer("Potion de poison", 1, 10)
 			p.Dealer()
@@ -63,6 +65,7 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "3":
+		ClearTerminal()
 		if p.inventory["Potion de mana"] < p.rangeinventory {
 			p.AddDealer("Potion de mana", 1, 5)
 			p.Dealer()
@@ -71,6 +74,7 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "4":
+		ClearTerminal()
 		if p.inventory["Marteau de forgeron"] < p.rangeinventory {
 			p.AddDealer("Marteau de forgeron", 1, 20)
 			p.Dealer()
@@ -79,6 +83,7 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "5":
+		ClearTerminal()
 		if p.inventory["Livre de sort: Boule de feu"] > 0 {
 			fmt.Println("Vous avez déjà acheté ce sort")
 			p.Dealer()
@@ -90,6 +95,7 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "6":
+		ClearTerminal()
 		if p.rangeinventory <= 30 {
 			p.rangeinventory += 10
 			fmt.Println("La taille maximale de votre inventaire passe à", p.rangeinventory, "emplacement !")
@@ -99,59 +105,21 @@ func (p *Player) Dealer() {
 			p.Dealer()
 		}
 	case "7":
-		if p.equipment.head["Chapeau de l'aventurier"] == 50 {
-			fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
-		} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
-			if p.equipment.head["Chapeau de l'aventurier"] == -5 {
-				p.maxlife += 10
-				p.maxmana += 10
-				fmt.Println("Vous recupérez votre bonus de caractéristique")
-				p.money["Pièces d'or"] -= 10
-			}
-			p.equipment.head["Chapeau de l'aventurier"] = 50
-			p.money["Pièces d'or"] -= 10
-			fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
-		} else {
-			fmt.Println("Vous n'avez rien d'équipé sur votre tête")
-		}
-		if p.equipment.torse["Tunique de l'aventurier"] == 50 {
-			fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
-		} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
-			if p.equipment.torse["Tunique de l'aventurier"] == -5 {
-				p.maxlife += 25
-				p.maxmana += 25
-				fmt.Println("Vous recupérez votre bonus de caractéristique")
-				p.money["Pièces d'or"] -= 10
-			}
-			p.equipment.torse["Tunique de l'aventurier"] = 50
-			p.money["Pièces d'or"] -= 10
-			fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
-		} else {
-			fmt.Println("Vous n'avez rien d'équipé sur votre torse")
-		}
-		if p.equipment.foot["Bottes de l'aventurier"] == 50 {
-			fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
-		} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
-			if p.equipment.foot["Bottes de l'aventurier"] == -5 {
-				p.maxlife += 15
-				p.maxmana += 15
-				fmt.Println("Vous recupérez votre bonus de caractéristique")
-				p.money["Pièces d'or"] -= 10
-			}
-			p.equipment.foot["Bottes de l'aventurier"] = 50
-			p.money["Pièces d'or"] -= 10
-			fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
-		} else {
-			fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
-		}
-		p.Dealer()
+			ClearTerminal()
+			p.TakeHammer2()
+
+			p.Dealer()
 	case "8":
+		ClearTerminal()
 		p.SellDealer()
 	case "9":
+		ClearTerminal()
 		p.Dealer2()
 	case "0":
+		ClearTerminal()
 		p.MainMenu()
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -162,7 +130,9 @@ func (p *Player) Dealer2() {
 	// Marchand page 2 Composants
 	fmt.Println("----------------------------")
 	fmt.Println("Page 2: Composants")
-	fmt.Println("Votre or:", p.money)
+	fmt.Println("Votre or:")
+	for i := range p.money {
+		fmt.Println(p.money[i], i)}
 	fmt.Println("Capacité de l'inventaire:", len(p.inventory), "/", p.rangeinventory)
 	fmt.Println("------")
 	fmt.Println("1: Fourrure de loup, 4 Pièces d'or")
@@ -173,20 +143,26 @@ func (p *Player) Dealer2() {
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		p.AddDealer("Fourrure de loup", 1, 4)
 		p.Dealer2()
 	case "2":
+		ClearTerminal()
 		p.AddDealer("Peau de troll", 1, 7)
 		p.Dealer2()
 	case "3":
+		ClearTerminal()
 		p.AddDealer("Cuir de sanglier", 1, 3)
 		p.Dealer2()
 	case "4":
+		ClearTerminal()
 		p.AddDealer("Plume de corbeau", 1, 1)
 		p.Dealer2()
 	case "0":
+		ClearTerminal()
 		p.Dealer()
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -234,6 +210,7 @@ func (p *Player) SellDealer() {
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
+			ClearTerminal()
 			if p.inventory["Potion de PV"] > 0 {
 				p.SellInventory("Potion de PV")
 				p.SellDealer()
@@ -242,6 +219,7 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "2":
+			ClearTerminal()
 			if p.inventory["Potion de poison"] > 0 {
 				p.SellInventory("Potion de poison")
 				p.SellDealer()
@@ -250,6 +228,7 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "3":
+			ClearTerminal()
 			if p.inventory["Potion de mana"] > 0 {
 				p.SellInventory("Potion de mana")
 				p.SellDealer()
@@ -258,6 +237,7 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "4":
+			ClearTerminal()
 			if p.inventory["Livre de sort: Boule de feu"] > 0 {
 				p.SellInventory("Livre de sort: Boule de feu")
 				p.SellDealer()
@@ -266,6 +246,7 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "5":
+			ClearTerminal()
 			if p.inventory["Fourrure de loup"] > 0 || p.inventory["Peau de troll"] > 0 || p.inventory["Cuir de sanglier"] > 0 || p.inventory["Plume de corbeau"] > 0 {
 				p.SellDealer2()
 			} else {
@@ -273,6 +254,7 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "6":
+			ClearTerminal()
 			if p.inventory["Chapeau de l'aventurier"] > 0 || p.inventory["Tunique de l'aventurier"] > 0 || p.inventory["Bottes de l'aventurier"] > 0 {
 				p.SellDealer3()
 			} else {
@@ -280,8 +262,10 @@ func (p *Player) SellDealer() {
 				p.SellDealer()
 			}
 		case "0":
+			ClearTerminal()
 			p.Dealer()
 		default:
+			ClearTerminal()
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
 			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -325,6 +309,7 @@ func (p *Player) SellDealer2() {
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
+			ClearTerminal()
 			if p.inventory["Fourrure de loup"] > 0 {
 				p.SellInventory("Fourrure de loup")
 				p.SellDealer2()
@@ -333,6 +318,7 @@ func (p *Player) SellDealer2() {
 				p.SellDealer2()
 			}
 		case "2":
+			ClearTerminal()
 			if p.inventory["Peau de troll"] > 0 {
 				p.SellInventory("Peau de troll")
 				p.SellDealer2()
@@ -341,6 +327,7 @@ func (p *Player) SellDealer2() {
 				p.SellDealer2()
 			}
 		case "3":
+			ClearTerminal()
 			if p.inventory["Cuir de sanglier"] > 0 {
 				p.SellInventory("Cuir de sanglier")
 				p.SellDealer2()
@@ -349,6 +336,7 @@ func (p *Player) SellDealer2() {
 				p.SellDealer2()
 			}
 		case "4":
+			ClearTerminal()
 			if p.inventory["Plume de corbeau"] > 0 {
 				p.SellInventory("Plume de corbeau")
 				p.SellDealer2()
@@ -357,6 +345,7 @@ func (p *Player) SellDealer2() {
 				p.SellDealer2()
 			}
 		case "5":
+			ClearTerminal()
 			if p.inventory["Chapeau de l'aventurier"] > 0 || p.inventory["Tunique de l'aventurier"] > 0 || p.inventory["Bottes de l'aventurier"] > 0 {
 				p.SellDealer3()
 			} else {
@@ -364,6 +353,7 @@ func (p *Player) SellDealer2() {
 				p.SellDealer2()
 			}
 		case "0":
+			ClearTerminal()
 			if p.inventory["Potion de PV"] > 0 || p.inventory["Potion de poison"] > 0 || p.inventory["Livre de sort: Boule de feu"] > 0 {
 				p.SellDealer()
 			} else {
@@ -371,6 +361,7 @@ func (p *Player) SellDealer2() {
 				p.Dealer()
 			}
 		default:
+			ClearTerminal()
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
 			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
@@ -410,6 +401,7 @@ func (p *Player) SellDealer3() {
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
+			ClearTerminal()
 			if p.inventory["Chapeau de l'aventurier"] > 0 {
 				p.SellInventory("Chapeau de l'aventurier")
 				p.SellDealer3()
@@ -418,6 +410,7 @@ func (p *Player) SellDealer3() {
 				p.SellDealer3()
 			}
 		case "2":
+			ClearTerminal()
 			if p.inventory["Tunique de l'aventurier"] > 0 {
 				p.SellInventory("Tunique de l'aventurier")
 				p.SellDealer3()
@@ -426,6 +419,7 @@ func (p *Player) SellDealer3() {
 				p.SellDealer3()
 			}
 		case "3":
+			ClearTerminal()
 			if p.inventory["Bottes de l'aventurier"] > 0 {
 				p.SellInventory("Bottes de l'aventurier")
 				p.SellDealer3()
@@ -434,6 +428,7 @@ func (p *Player) SellDealer3() {
 				p.SellDealer3()
 			}
 		case "4":
+			ClearTerminal()
 			if p.inventory["Fourrure de loup"] > 0 || p.inventory["Peau de troll"] > 0 || p.inventory["Cuir de sanglier"] > 0 || p.inventory["Plume de corbeau"] > 0 {
 				p.SellDealer2()
 			} else {
@@ -441,6 +436,7 @@ func (p *Player) SellDealer3() {
 				p.SellDealer3()
 			}
 		case "0":
+			ClearTerminal()
 			if p.inventory["Potion de PV"] > 0 || p.inventory["Potion de poison"] > 0 || p.inventory["Livre de sort: Boule de feu"] > 0 {
 				p.SellDealer()
 			} else {
@@ -448,6 +444,7 @@ func (p *Player) SellDealer3() {
 				p.Dealer()
 			}
 		default:
+			ClearTerminal()
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
 			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 			fmt.Println("---------------------------------------------------------------------------------------------------------")

@@ -32,6 +32,7 @@ func (p *Player) BlackSmith() {
 		fmt.Scanln(&input)
 		switch input {
 		case "1":
+			ClearTerminal()
 			if p.inventory["Plume de corbeau"] > 0 && p.inventory["Cuir de sanglier"] > 0 {
 				p.AddCraft("Chapeau de l'aventurier", 1, 5)
 				p.inventory["Plume de corbeau"]--
@@ -43,6 +44,7 @@ func (p *Player) BlackSmith() {
 				p.BlackSmith()
 			}
 		case "2":
+			ClearTerminal()
 			if p.inventory["Fourrure de loup"] > 1 && p.inventory["Peau de troll"] > 0 {
 				p.AddCraft("Tunique de l'aventurier", 1, 5)
 				p.inventory["Fourrure de loup"] -= 2
@@ -54,6 +56,7 @@ func (p *Player) BlackSmith() {
 				p.BlackSmith()
 			}
 		case "3":
+			ClearTerminal()
 			if p.inventory["Fourrure de loup"] > 0 && p.inventory["Cuir de sanglier"] > 0 {
 				p.AddCraft("Bottes de l'aventurier", 1, 5)
 				p.inventory["Fourrure de loup"]--
@@ -65,8 +68,10 @@ func (p *Player) BlackSmith() {
 				p.BlackSmith()
 			}
 		case "0":
+			ClearTerminal()
 			p.MainMenu()
 		default:
+			ClearTerminal()
 			fmt.Println("---------------------------------------------------------------------------------------------------------")
 			fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 			fmt.Println("---------------------------------------------------------------------------------------------------------")

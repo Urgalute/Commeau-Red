@@ -23,11 +23,13 @@ func (p *Player) FightInventory() {
 	}
 	if p.inventory["Marteau de forgeron"] > 0 {
 		fmt.Println("4: Utiliser un marteau de forgeron (Répare votre équipement)")
+	}
 	fmt.Println("0: Retour")
 	fmt.Println("----------------------------")
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		if p.inventory["Potion de PV"] > 0 {
 			if p.actuallife <= p.maxlife-50 {
 				p.TakePot()
@@ -41,6 +43,7 @@ func (p *Player) FightInventory() {
 			p.FightInventory()
 		}
 	case "2":
+		ClearTerminal()
 		if p.inventory["Potion de mana"] > 0 {
 			if p.actualmana <= p.maxmana-25 {
 				p.TakeManaPot()
@@ -54,6 +57,7 @@ func (p *Player) FightInventory() {
 			p.FightInventory()
 		}
 	case "3":
+		ClearTerminal()
 		if p.inventory["Potion de poison"] > 0 {
 			if p.actuallife <= p.actuallife-30 {
 				fmt.Println("Vous êtes sûr de vous ?")
@@ -62,73 +66,43 @@ func (p *Player) FightInventory() {
 				fmt.Scanln(&input)
 				switch input {
 				case "1":
+					ClearTerminal()
 					p.PoisonPot()
 					p.AttackGoblin(Turn)
 				case "0":
+					ClearTerminal()
 					p.FightInventory()
 				default:
+					ClearTerminal()
 					fmt.Println("---------------------------------------------------------------------------------------------------------")
 					fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 					fmt.Println("---------------------------------------------------------------------------------------------------------")
 					p.FightInventory()
 				}
 			} else {
+				ClearTerminal()
 				p.PoisonPot()
 				p.AttackGoblin(Turn)
 			}
 		} else {
+			ClearTerminal()
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.FightInventory()
 		}
-	case "4": if p.equipment.head["Chapeau de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
-	} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
-		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
-			p.maxlife += 10
-			p.maxmana += 10
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.head["Chapeau de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur votre tête")
-	}
-	if p.equipment.torse["Tunique de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
-	} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
-		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
-			p.maxlife += 25
-			p.maxmana += 25
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.torse["Tunique de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur votre torse")
-	}
-	if p.equipment.foot["Bottes de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
-	} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
-		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
-			p.maxlife += 15
-			p.maxmana += 15
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.foot["Bottes de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
-	}
-	p.FightInventory()
+	case "4":		
+	ClearTerminal()
+				p.TakeHammer()
+				p.FightInventory()
 	case "0":
+		ClearTerminal()
 		p.TrainingFight(Turn)
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		p.FightInventory()
 	}
-}
 }
 func (p *Player) AccessInventory() {
 	//Affiche l'inventaire et les actions possible
@@ -173,6 +147,7 @@ func (p *Player) AccessInventory() {
 	fmt.Scanln(&input)
 	switch input {
 	case "1":
+		ClearTerminal()
 		if p.inventory["Potion de PV"] > 0 {
 			p.TakePot()
 			p.AccessInventory()
@@ -181,6 +156,7 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "3":
+		ClearTerminal()
 		if p.inventory["Potion de poison"] > 0 {
 			p.PoisonPot()
 			if p.Wasted() {
@@ -191,6 +167,7 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "2":
+		ClearTerminal()
 		if p.inventory["Potion de mana"] > 0 {
 			p.TakeManaPot()
 			p.AccessInventory()
@@ -198,47 +175,12 @@ func (p *Player) AccessInventory() {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-	case "4": if p.equipment.head["Chapeau de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
-	} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
-		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
-			p.maxlife += 10
-			p.maxmana += 10
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.head["Chapeau de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur votre tête")
-	}
-	if p.equipment.torse["Tunique de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
-	} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
-		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
-			p.maxlife += 25
-			p.maxmana += 25
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.torse["Tunique de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur votre torse")
-	}
-	if p.equipment.foot["Bottes de l'aventurier"] == 50 {
-		fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
-	} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
-		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
-			p.maxlife += 15
-			p.maxmana += 15
-			fmt.Println("Vous recupérez votre bonus de caractéristique")
-		}
-		p.equipment.foot["Bottes de l'aventurier"] = 50
-		fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
-	} else {
-		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
-	}
+	case "4":
+		ClearTerminal()
+		p.TakeHammer()
 	p.AccessInventory()
 	case "5":
+		ClearTerminal()
 		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -258,6 +200,7 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "6":
+		ClearTerminal()
 		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -277,6 +220,7 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "7":
+		ClearTerminal()
 		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
 			fmt.Println("Un autre exemplaire de cet objet est déjà équipé")
 			p.AccessInventory()
@@ -296,16 +240,18 @@ func (p *Player) AccessInventory() {
 			p.AccessInventory()
 		}
 	case "8":
+		ClearTerminal()
 		if p.inventory["Livre de sort: Boule de feu"] > 0 {
 			p.SpellBook()
 		} else {
 			fmt.Println("Bien essayé mais vous ne posséder pas cet objet")
 			p.AccessInventory()
 		}
-		p.AccessInventory()
 	case "0":
+		ClearTerminal()
 		p.MainMenu()
 	default:
+		ClearTerminal()
 		fmt.Println("---------------------------------------------------------------------------------------------------------")
 		fmt.Println("Cette commande ne fait pas partie des possibles, réessayez.")
 		fmt.Println("---------------------------------------------------------------------------------------------------------")

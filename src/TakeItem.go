@@ -68,3 +68,100 @@ func (p *Player) TakeManaPot() {
 		fmt.Println("----------------------------")
 	}
 }
+func (p *Player) TakeHammer(){
+	var i int
+	if p.equipment.head["Chapeau de l'aventurier"] == 50 {
+   fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
+} else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
+   if p.equipment.head["Chapeau de l'aventurier"] == -5 {
+	   p.maxlife += 10
+	   p.maxmana += 10
+	   fmt.Println("Vous recupérez votre bonus de caractéristique")
+   }
+   p.equipment.head["Chapeau de l'aventurier"] = 50
+   fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
+   i = 1
+} else {
+   fmt.Println("Vous n'avez rien d'équipé sur votre tête")
+}
+if p.equipment.torse["Tunique de l'aventurier"] == 50 {
+   fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
+} else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
+   if p.equipment.torse["Tunique de l'aventurier"] == -5 {
+	   p.maxlife += 25
+	   p.maxmana += 25
+	   fmt.Println("Vous recupérez votre bonus de caractéristique")
+   }
+   p.equipment.torse["Tunique de l'aventurier"] = 50
+   fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
+   i = 1
+} else {
+   fmt.Println("Vous n'avez rien d'équipé sur votre torse")
+}
+if p.equipment.foot["Bottes de l'aventurier"] == 50 {
+   fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
+} else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
+   if p.equipment.foot["Bottes de l'aventurier"] == -5 {
+	   p.maxlife += 15
+	   p.maxmana += 15
+	   fmt.Println("Vous recupérez votre bonus de caractéristique")
+   }
+   p.equipment.foot["Bottes de l'aventurier"] = 50
+   fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
+   i = 1
+} else {
+   fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
+}
+if i == 1{
+p.inventory["Marteau de forgeron"]--
+p.DeleteInventory()}
+}
+
+func (p *Player) TakeHammer2(){
+	var i int 
+	if p.equipment.head["Chapeau de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Chapeau de l'aventurier est déjà au maximum")
+	 } else if p.equipment.head["Chapeau de l'aventurier"] == -5 || p.equipment.head["Chapeau de l'aventurier"] > 0 && p.equipment.head["Chapeau de l'aventurier"] != 50 {
+		if p.equipment.head["Chapeau de l'aventurier"] == -5 {
+			p.maxlife += 10
+			p.maxmana += 10
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.head["Chapeau de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Chapeau de l'aventurier")
+		i = 1
+	 } else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre tête")
+	 }
+	 if p.equipment.torse["Tunique de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de votre Tunique de l'aventurier est déjà au maximum")
+	 } else if p.equipment.torse["Tunique de l'aventurier"] == -5 || p.equipment.torse["Tunique de l'aventurier"] > 0 && p.equipment.torse["Tunique de l'aventurier"] != 50 {
+		if p.equipment.torse["Tunique de l'aventurier"] == -5 {
+			p.maxlife += 25
+			p.maxmana += 25
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.torse["Tunique de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé votre Tunique de l'aventurier")
+		i = 1
+	 } else {
+		fmt.Println("Vous n'avez rien d'équipé sur votre torse")
+	 }
+	 if p.equipment.foot["Bottes de l'aventurier"] == 50 {
+		fmt.Println("La durabilité de vos Bottes de l'aventurier est déjà au maximum")
+	 } else if p.equipment.foot["Bottes de l'aventurier"] == -5 || p.equipment.foot["Bottes de l'aventurier"] > 0 && p.equipment.foot["Bottes de l'aventurier"] != 50 {
+		if p.equipment.foot["Bottes de l'aventurier"] == -5 {
+			p.maxlife += 15
+			p.maxmana += 15
+			fmt.Println("Vous recupérez votre bonus de caractéristique")
+		}
+		p.equipment.foot["Bottes de l'aventurier"] = 50
+		fmt.Println("Vous avez bien réparé vos Bottes de l'aventurier")
+		i = 1
+	 } else {
+		fmt.Println("Vous n'avez rien d'équipé sur vos jambes")
+	 }
+	 if i == 1{
+	p.money["Pièces d'or"] -=10
+	}
+	 }
